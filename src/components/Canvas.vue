@@ -11,10 +11,11 @@ const defaultCanvasOpts: fabric.ICanvasOptions = {
 
 const defaultRectOpts: fabric.IRectOptions = {
   evented: false,
-  objectCaching: false,
 };
 const defaultPlacementRectOpts: fabric.IRectOptions = {
   ...defaultRectOpts,
+  absolutePositioned: true,
+  objectCaching: false,
   fill: "transparent",
   stroke: "gray",
 };
@@ -53,10 +54,12 @@ onMounted(() => {
 
     frontRect1 = new fabric.Rect({
       ...defaultLayerRectOpts,
+      clipPath: frontPlacement,
       ...store.state.layers.rectangle1.front,
     });
     backRect1 = new fabric.Rect({
       ...defaultLayerRectOpts,
+      clipPath: backPlacement,
       ...store.state.layers.rectangle1.back,
     });
 
