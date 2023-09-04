@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
 import PositionInputs from "../components/PositionInputs.vue";
+import { store, UPDATE_LAYER } from "../plugins/store";
 
 const currentTab = ref<string | null>(null);
+
+watch(
+  () => store.state.layers.rectangle1.front,
+  (newRectangle1Front) => {
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle1",
+      position: "back",
+      data: newRectangle1Front,
+    });
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <h1 class="text-h4 mb-4">Design your T-shirt</h1>
 
   <v-card>
-    <v-card-text><Canvas></Canvas></v-card-text>
+    <v-card-text>
+      <v-row>
+        <v-col cols="12" md="6" class="d-flex justify-center">
+          <Canvas position="front"></Canvas>
+        </v-col>
+        <v-col cols="12" md="6" class="d-flex justify-center">
+          <Canvas position="back"></Canvas>
+        </v-col>
+      </v-row>
+    </v-card-text>
 
     <v-tabs v-model="currentTab" fixed-tabs center-active>
       <v-tab value="print-areas">Placement areas</v-tab>
