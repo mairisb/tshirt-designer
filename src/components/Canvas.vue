@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { ref } from "vue";
 import { fabric } from "fabric";
+import { onMounted, ref } from "vue";
+import { useStore } from "vuex";
+import { IStore } from "../plugins/store";
+
+const store = useStore<IStore>();
 
 const canvasRef1 = ref<HTMLCanvasElement | null>();
 const canvasRef2 = ref<HTMLCanvasElement | null>();
@@ -17,6 +20,13 @@ onMounted(() => {
     canvas2 = new fabric.Canvas(canvasRef2.value, {
       backgroundColor: "rgb(245,245,245)",
     });
+
+    const frontPlacement = new fabric.Rect({
+      fill: "blue",
+      ...store.state.front,
+    });
+
+    canvas1.add(frontPlacement);
   }
 });
 </script>

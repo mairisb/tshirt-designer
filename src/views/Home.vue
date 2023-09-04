@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import LayoutPlacementForm from "../components/LayoutPlacementForm.vue";
 import Canvas from "../components/Canvas.vue";
+import LayoutPlacementForm from "../components/LayoutPlacementForm.vue";
 
 const tab = ref<string | null>(null);
 </script>
