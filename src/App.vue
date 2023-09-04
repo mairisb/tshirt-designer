@@ -6,7 +6,7 @@ import { RouterView } from "vue-router";
   <v-app>
     <v-main>
       <v-app-bar color="primary" density="compact">
-        <v-app-bar-title>T-shirt Designer</v-app-bar-title>
+        <v-app-bar-title>T-shirt designer</v-app-bar-title>
       </v-app-bar>
       <v-container>
         <RouterView />
