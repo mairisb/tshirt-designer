@@ -30,9 +30,9 @@ const tab = ref<string | null>(null);
         </v-window-item>
         <v-window-item value="design">
           <h3 class="text-h6">Rectangle 1</h3>
-          <LayoutPlacementForm position="front" />
+          <LayoutPlacementForm layer="rectangle1" position="front" />
           <h3 class="text-h6">Rectangle 2</h3>
-          <LayoutPlacementForm position="front" />
+          <LayoutPlacementForm layer="rectangle2" position="front" />
         </v-window-item>
       </v-window>
     </v-card-text>

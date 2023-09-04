@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "vuex";
-import { Positions, State, UPDATE_PLACEMENT } from "../plugins/store";
+import {
+  Layers,
+  Positions,
+  State,
+  UPDATE_LAYER,
+  UPDATE_PLACEMENT,
+} from "../plugins/store";
 
 const props = defineProps<{
+  layer?: keyof Layers;
   position: keyof Positions;
 }>();
 
@@ -13,17 +20,30 @@ const createPositionRefObj = (
   position: keyof Positions,
   bar: keyof fabric.Rect
 ) =>
-  computed({
-    get: () => store.state.placements[position][bar],
-    set: (value) => {
-      store.commit(UPDATE_PLACEMENT, {
-        key: position,
-        value: {
-          [bar]: value,
+  props.layer
+    ? computed({
+        get: () => store.state.layers[props.layer!][position][bar],
+        set: (value) => {
+          store.commit(UPDATE_LAYER, {
+            layer: props.layer,
+            key: position,
+            value: {
+              [bar]: value,
+            },
+          });
+        },
+      })
+    : computed({
+        get: () => store.state.placements[position][bar],
+        set: (value) => {
+          store.commit(UPDATE_PLACEMENT, {
+            key: position,
+            value: {
+              [bar]: value,
+            },
+          });
         },
       });
-    },
-  });
 
 const left = createPositionRefObj(props.position, "left");
 const top = createPositionRefObj(props.position, "top");
