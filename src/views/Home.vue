@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Canvas from "../components/Canvas.vue";
-import LayoutPlacementForm from "../components/LayoutPlacementForm.vue";
+import RectOptInputs from "../components/LayoutPlacementForm.vue";
 
 const currentTab = ref<string | null>(null);
 </script>
@@ -21,24 +21,24 @@ const currentTab = ref<string | null>(null);
       <v-window v-model="currentTab">
         <v-window-item value="print-areas">
           <h3 class="text-h6">Front</h3>
-          <LayoutPlacementForm position="front" />
+          <RectOptInputs position="front" />
 
           <h3 class="text-h6">Back</h3>
-          <LayoutPlacementForm position="back" />
+          <RectOptInputs position="back" />
 
           <h3 class="text-h6">Left sleeve</h3>
-          <LayoutPlacementForm position="leftSleeve" />
+          <RectOptInputs position="leftSleeve" />
 
           <h3 class="text-h6">Right sleeve</h3>
-          <LayoutPlacementForm position="rightSleeve" />
+          <RectOptInputs position="rightSleeve" />
         </v-window-item>
 
         <v-window-item value="designs">
           <h3 class="text-h6">Rectangle 1</h3>
-          <LayoutPlacementForm layer="rectangle1" position="front" />
+          <RectOptInputs layer="rectangle1" position="front" />
 
           <h3 class="text-h6">Rectangle 2</h3>
-          <LayoutPlacementForm layer="rectangle2" position="front" />
+          <RectOptInputs layer="rectangle2" position="front" />
         </v-window-item>
       </v-window>
     </v-card-text>
