@@ -27,6 +27,27 @@ watch(
   },
   { deep: true }
 );
+watch(
+  () => store.state.layers.rectangle2.front,
+  (newRectangle2Front) => {
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle2",
+      position: "back",
+      data: newRectangle2Front,
+    });
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle2",
+      position: "leftSleeve",
+      data: newRectangle2Front,
+    });
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle2",
+      position: "rightSleeve",
+      data: newRectangle2Front,
+    });
+  },
+  { deep: true }
+);
 </script>
 
 <template>

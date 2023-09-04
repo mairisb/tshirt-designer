@@ -24,13 +24,13 @@ const defaultPlacementRectOpts: fabric.IRectOptions = {
 };
 const defaultLayerRectOpts: fabric.IRectOptions = {
   ...defaultRectOpts,
-  fill: "red",
 };
 
 const canvasRef = ref<HTMLCanvasElement | null>();
 let canvas: fabric.Canvas | null = null;
 let placement: fabric.Rect | null = null;
 let rectangle1: fabric.Rect | null = null;
+let rectangle2: fabric.Rect | null = null;
 
 const store = useStore<State>();
 
@@ -43,10 +43,17 @@ onMounted(() => {
     });
     rectangle1 = new fabric.Rect({
       ...defaultLayerRectOpts,
+      fill: "#ed4642",
       clipPath: placement,
       ...store.state.layers.rectangle1[props.position],
     });
-    canvas.add(placement, rectangle1);
+    rectangle2 = new fabric.Rect({
+      ...defaultLayerRectOpts,
+      fill: "#17bcb5",
+      clipPath: placement,
+      ...store.state.layers.rectangle2[props.position],
+    });
+    canvas.add(placement, rectangle1, rectangle2);
   }
 });
 
@@ -62,12 +69,23 @@ watch(
   },
   { deep: true }
 );
-
 watch(
   () => store.state.layers.rectangle1,
   (newRectangle1) => {
     if (rectangle1) {
       rectangle1.set(newRectangle1[props.position]);
+    }
+    if (canvas) {
+      canvas.renderAll();
+    }
+  },
+  { deep: true }
+);
+watch(
+  () => store.state.layers.rectangle2,
+  (newRectangle2) => {
+    if (rectangle2) {
+      rectangle2.set(newRectangle2[props.position]);
     }
     if (canvas) {
       canvas.renderAll();
