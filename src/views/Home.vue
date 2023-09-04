@@ -14,6 +14,16 @@ watch(
       position: "back",
       data: newRectangle1Front,
     });
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle1",
+      position: "leftSleeve",
+      data: newRectangle1Front,
+    });
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle1",
+      position: "rightSleeve",
+      data: newRectangle1Front,
+    });
   },
   { deep: true }
 );
@@ -30,6 +40,12 @@ watch(
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center">
           <Canvas position="back"></Canvas>
+        </v-col>
+        <v-col cols="12" md="6" class="d-flex justify-center">
+          <Canvas position="leftSleeve"></Canvas>
+        </v-col>
+        <v-col cols="12" md="6" class="d-flex justify-center">
+          <Canvas position="rightSleeve"></Canvas>
         </v-col>
       </v-row>
     </v-card-text>
