@@ -1,54 +1,34 @@
 <script setup lang="ts">
-import { State, UPDATE_PLACEMENT } from "../plugins/store";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { Positions, State, UPDATE_PLACEMENT } from "../plugins/store";
+
+const props = defineProps<{
+  position: keyof Positions;
+}>();
 
 const store = useStore<State>();
 
-const left = computed({
-  get: () => store.state.placements.front.left,
-  set: (value) => {
-    store.commit(UPDATE_PLACEMENT, {
-      key: "front",
-      value: {
-        left: value,
-      },
-    });
-  },
-});
-const top = computed({
-  get: () => store.state.placements.front.top,
-  set: (value) => {
-    store.commit(UPDATE_PLACEMENT, {
-      key: "front",
-      value: {
-        top: value,
-      },
-    });
-  },
-});
-const width = computed({
-  get: () => store.state.placements.front.width,
-  set: (value) => {
-    store.commit(UPDATE_PLACEMENT, {
-      key: "front",
-      value: {
-        width: value,
-      },
-    });
-  },
-});
-const height = computed({
-  get: () => store.state.placements.front.height,
-  set: (value) => {
-    store.commit(UPDATE_PLACEMENT, {
-      key: "front",
-      value: {
-        height: value,
-      },
-    });
-  },
-});
+const createPositionRefObj = (
+  position: keyof Positions,
+  bar: keyof fabric.Rect
+) =>
+  computed({
+    get: () => store.state.placements[position][bar],
+    set: (value) => {
+      store.commit(UPDATE_PLACEMENT, {
+        key: position,
+        value: {
+          [bar]: value,
+        },
+      });
+    },
+  });
+
+const left = createPositionRefObj(props.position, "left");
+const top = createPositionRefObj(props.position, "top");
+const width = createPositionRefObj(props.position, "width");
+const height = createPositionRefObj(props.position, "height");
 </script>
 
 <template>

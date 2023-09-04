@@ -20,19 +20,19 @@ const tab = ref<string | null>(null);
       <v-window v-model="tab" class="pt-0">
         <v-window-item value="print-area">
           <h3 class="text-h6">Front</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="front" />
           <h3 class="text-h6">Back</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="back" />
           <h3 class="text-h6">Left sleeve</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="leftSleeve" />
           <h3 class="text-h6">Right sleeve</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="rightSleeve" />
         </v-window-item>
         <v-window-item value="design">
           <h3 class="text-h6">Rectangle 1</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="front" />
           <h3 class="text-h6">Rectangle 2</h3>
-          <LayoutPlacementForm />
+          <LayoutPlacementForm position="front" />
         </v-window-item>
       </v-window>
     </v-card-text>
