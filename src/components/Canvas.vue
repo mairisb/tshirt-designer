@@ -12,10 +12,10 @@ let canvas2: fabric.Canvas | null = null;
 onMounted(() => {
   if (canvasRef1.value && canvasRef2.value) {
     canvas1 = new fabric.Canvas(canvasRef1.value, {
-      backgroundColor: "white",
+      backgroundColor: "rgb(245,245,245)",
     });
     canvas2 = new fabric.Canvas(canvasRef2.value, {
-      backgroundColor: "white",
+      backgroundColor: "rgb(245,245,245)",
     });
   }
 });
@@ -31,10 +31,3 @@ onMounted(() => {
     </v-col>
   </v-row>
 </template>
-
-<style>
-.canvas-container,
-canvas {
-  border: 1px solid lightgray;
-}
-</style>
