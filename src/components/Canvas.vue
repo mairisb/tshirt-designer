@@ -14,6 +14,8 @@ const defaultCanvasOpts: fabric.ICanvasOptions = {
 };
 const defaultRectOpts: fabric.IRectOptions = {
   evented: false,
+  originX: "center",
+  originY: "center",
 };
 const defaultPlacementRectOpts: fabric.IRectOptions = {
   ...defaultRectOpts,
