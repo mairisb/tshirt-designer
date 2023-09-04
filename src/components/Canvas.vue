@@ -2,7 +2,7 @@
 import { fabric } from "fabric";
 import { onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { State } from "../plugins/store";
+import { State, UPDATE_LAYER } from "../plugins/store";
 
 const defaultCanvasOpts: fabric.ICanvasOptions = {
   backgroundColor: "rgb(245,245,245)",
@@ -10,16 +10,17 @@ const defaultCanvasOpts: fabric.ICanvasOptions = {
 };
 
 const defaultRectOpts: fabric.IRectOptions = {
+  evented: false,
   objectCaching: false,
 };
 const defaultPlacementRectOpts: fabric.IRectOptions = {
   ...defaultRectOpts,
-  stroke: "gray",
   fill: "transparent",
-  evented: false,
+  stroke: "gray",
 };
 const defaultLayerRectOpts: fabric.IRectOptions = {
   ...defaultRectOpts,
+  fill: "red",
 };
 
 const frontCanvasRef = ref<HTMLCanvasElement | null>();
@@ -30,6 +31,9 @@ let backCanvas: fabric.Canvas | null = null;
 
 let frontPlacement: fabric.Rect | null = null;
 let backPlacement: fabric.Rect | null = null;
+
+let frontRect1: fabric.Rect | null = null;
+let backRect1: fabric.Rect | null = null;
 
 const store = useStore<State>();
 
@@ -42,14 +46,22 @@ onMounted(() => {
       ...defaultPlacementRectOpts,
       ...store.state.placements.front,
     });
-
     backPlacement = new fabric.Rect({
       ...defaultPlacementRectOpts,
       ...store.state.placements.back,
     });
 
-    frontCanvas.add(frontPlacement);
-    backCanvas.add(backPlacement);
+    frontRect1 = new fabric.Rect({
+      ...defaultLayerRectOpts,
+      ...store.state.layers.rectangle1.front,
+    });
+    backRect1 = new fabric.Rect({
+      ...defaultLayerRectOpts,
+      ...store.state.layers.rectangle1.back,
+    });
+
+    frontCanvas.add(frontPlacement, frontRect1);
+    backCanvas.add(backPlacement, backRect1);
   }
 });
 
@@ -59,6 +71,33 @@ watch(
     if (frontPlacement && backPlacement) {
       frontPlacement.set(placement.front);
       backPlacement.set(placement.back);
+    }
+    if (frontCanvas && backCanvas) {
+      frontCanvas.renderAll();
+      backCanvas.renderAll();
+    }
+  },
+  { deep: true }
+);
+
+watch(
+  () => store.state.layers.rectangle1.front,
+  (rectangle1Front) => {
+    store.commit(UPDATE_LAYER, {
+      layer: "rectangle1",
+      position: "back",
+      data: rectangle1Front,
+    });
+  },
+  { deep: true }
+);
+
+watch(
+  () => store.state.layers.rectangle1,
+  (rectangle1) => {
+    if (frontRect1 && backRect1) {
+      frontRect1.set(rectangle1.front);
+      backRect1.set(rectangle1.back);
     }
     if (frontCanvas && backCanvas) {
       frontCanvas.renderAll();
