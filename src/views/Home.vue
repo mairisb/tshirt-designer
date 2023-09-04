@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import LayoutPlacementForm from "../components/LayoutPlacementForm.vue";
+import Canvas from "../components/Canvas.vue";
 
 const tab = ref<string | null>(null);
 </script>
@@ -8,6 +9,8 @@ const tab = ref<string | null>(null);
 <template>
   <h1 class="text-h4 mb-4">Design your T-shirt</h1>
   <v-card>
+    <v-card-text><Canvas></Canvas></v-card-text>
+
     <v-tabs v-model="tab" fixed-tabs center-active>
       <v-tab value="print-area">Print area</v-tab>
       <v-tab value="design">Design</v-tab>
