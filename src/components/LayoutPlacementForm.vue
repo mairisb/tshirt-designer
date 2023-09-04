@@ -1,39 +1,51 @@
 <script setup lang="ts">
-import { IStore } from "@/plugins/store";
+import { State, UPDATE_PLACEMENT } from "../plugins/store";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
-const store = useStore<IStore>();
+const store = useStore<State>();
 
 const left = computed({
-  get: () => store.state.front.left,
+  get: () => store.state.placements.front.left,
   set: (value) => {
-    store.commit("updateFront", {
-      left: value,
+    store.commit(UPDATE_PLACEMENT, {
+      key: "front",
+      value: {
+        left: value,
+      },
     });
   },
 });
 const top = computed({
-  get: () => store.state.front.top,
+  get: () => store.state.placements.front.top,
   set: (value) => {
-    store.commit("updateFront", {
-      top: value,
+    store.commit(UPDATE_PLACEMENT, {
+      key: "front",
+      value: {
+        top: value,
+      },
     });
   },
 });
 const width = computed({
-  get: () => store.state.front.width,
+  get: () => store.state.placements.front.width,
   set: (value) => {
-    store.commit("updateFront", {
-      width: value,
+    store.commit(UPDATE_PLACEMENT, {
+      key: "front",
+      value: {
+        width: value,
+      },
     });
   },
 });
 const height = computed({
-  get: () => store.state.front.height,
+  get: () => store.state.placements.front.height,
   set: (value) => {
-    store.commit("updateFront", {
-      height: value,
+    store.commit(UPDATE_PLACEMENT, {
+      key: "front",
+      value: {
+        height: value,
+      },
     });
   },
 });

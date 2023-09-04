@@ -2,9 +2,9 @@
 import { fabric } from "fabric";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
-import { IStore } from "../plugins/store";
+import { State } from "../plugins/store";
 
-const store = useStore<IStore>();
+const store = useStore<State>();
 
 const canvasRef1 = ref<HTMLCanvasElement | null>();
 const canvasRef2 = ref<HTMLCanvasElement | null>();
@@ -23,7 +23,7 @@ onMounted(() => {
 
     const frontPlacement = new fabric.Rect({
       fill: "blue",
-      ...store.state.front,
+      ...store.state.placements.front,
     });
 
     canvas1.add(frontPlacement);
