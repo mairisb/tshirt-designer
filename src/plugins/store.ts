@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import { fabric } from "fabric";
+import { computed } from "vue";
 
 export interface Positions {
   front: Partial<fabric.Rect>;
@@ -107,33 +108,67 @@ export const store = createStore<State>({
   mutations: {
     [UPDATE_PLACEMENT](
       state,
-      payload: { key: keyof Positions; value: Partial<fabric.Rect> }
+      payload: { position: keyof Positions; data: Partial<fabric.Rect> }
     ) {
-      state.placements[payload.key] = {
-        ...state.placements[payload.key],
-        ...payload.value,
+      state.placements[payload.position] = {
+        ...state.placements[payload.position],
+        ...payload.data,
       };
     },
     [UPDATE_LAYER](
       state,
       payload: {
         layer: keyof Layers;
-        key: keyof Positions;
-        value: Partial<fabric.Rect>;
+        position: keyof Positions;
+        data: Partial<fabric.Rect>;
       }
     ) {
-      state.layers[payload.layer][payload.key] = {
-        ...state.layers[payload.layer][payload.key],
-        ...payload.value,
+      state.layers[payload.layer][payload.position] = {
+        ...state.layers[payload.layer][payload.position],
+        ...payload.data,
       };
     },
   },
   getters: {
-    getPlacement: (state) => (key: keyof Positions) => {
-      return state.placements[key];
+    getPlacement: (state) => (position: keyof Positions) => {
+      return state.placements[position];
     },
-    getLayer: (state) => (layer: keyof Layers, key: keyof Positions) => {
-      return state.layers[layer][key];
+    getLayer: (state) => (layer: keyof Layers, position: keyof Positions) => {
+      return state.layers[layer][position];
     },
   },
 });
+
+export const createLayerPositionRef = (
+  layer: keyof Layers,
+  position: keyof Positions,
+  rectOpt: keyof fabric.Rect
+) =>
+  computed({
+    get: () => store.state.layers[layer][position][rectOpt],
+    set: (value) => {
+      store.commit(UPDATE_LAYER, {
+        layer,
+        position,
+        data: {
+          [rectOpt]: value,
+        },
+      });
+    },
+  });
+
+export const createPlacementPositionRef = (
+  position: keyof Positions,
+  rectOpt: keyof fabric.Rect
+) =>
+  computed({
+    get: () => store.state.placements[position][rectOpt],
+    set: (value) => {
+      store.commit(UPDATE_PLACEMENT, {
+        position,
+        data: {
+          [rectOpt]: value,
+        },
+      });
+    },
+  });

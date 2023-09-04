@@ -18,7 +18,7 @@ const currentTab = ref<string | null>(null);
     </v-tabs>
 
     <v-card-text>
-      <v-window v-model="currentTab" class="pt-0">
+      <v-window v-model="currentTab">
         <v-window-item value="print-areas">
           <h3 class="text-h6">Front</h3>
           <LayoutPlacementForm position="front" />

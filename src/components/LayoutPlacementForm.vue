@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useStore } from "vuex";
 import {
   Layers,
   Positions,
-  State,
-  UPDATE_LAYER,
-  UPDATE_PLACEMENT,
+  createLayerPositionRef,
+  createPlacementPositionRef,
 } from "../plugins/store";
 
 const props = defineProps<{
@@ -14,41 +11,15 @@ const props = defineProps<{
   position: keyof Positions;
 }>();
 
-const store = useStore<State>();
-
-const createPositionRefObj = (
-  position: keyof Positions,
-  bar: keyof fabric.Rect
-) =>
+const createPositionRef = (rectOption: keyof fabric.Rect) =>
   props.layer
-    ? computed({
-        get: () => store.state.layers[props.layer!][position][bar],
-        set: (value) => {
-          store.commit(UPDATE_LAYER, {
-            layer: props.layer,
-            key: position,
-            value: {
-              [bar]: value,
-            },
-          });
-        },
-      })
-    : computed({
-        get: () => store.state.placements[position][bar],
-        set: (value) => {
-          store.commit(UPDATE_PLACEMENT, {
-            key: position,
-            value: {
-              [bar]: value,
-            },
-          });
-        },
-      });
+    ? createLayerPositionRef(props.layer, props.position, rectOption)
+    : createPlacementPositionRef(props.position, rectOption);
 
-const left = createPositionRefObj(props.position, "left");
-const top = createPositionRefObj(props.position, "top");
-const width = createPositionRefObj(props.position, "width");
-const height = createPositionRefObj(props.position, "height");
+const left = createPositionRef("left");
+const top = createPositionRef("top");
+const width = createPositionRef("width");
+const height = createPositionRef("height");
 </script>
 
 <template>
