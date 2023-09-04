@@ -151,7 +151,7 @@ export const createLayerPositionRef = (
         layer,
         position,
         data: {
-          [rectOpt]: value,
+          [rectOpt]: Math.round(value),
         },
       });
     },
@@ -167,7 +167,7 @@ export const createPlacementPositionRef = (
       store.commit(UPDATE_PLACEMENT, {
         position,
         data: {
-          [rectOpt]: value,
+          [rectOpt]: Math.round(value),
         },
       });
     },
