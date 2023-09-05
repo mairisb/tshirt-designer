@@ -8,71 +8,67 @@ import { Layers, Placements, Rect } from "../store/state.type";
 
 const currentTab = ref<string | null>(null);
 
-const doMagic = (
-  layer: keyof Layers,
-  placement: keyof Placements,
-  frontRect: Rect
-) => {
-  const frontPlacementArea = store.state.placementAreas.front;
-  const placementArea = store.state.placementAreas[placement];
+const mapRectToPlacement = (
+  baseRect: Rect,
+  basePlacement: keyof Placements,
+  targetPlacement: keyof Placements
+): Rect => {
+  const basePlacementAreaRect = store.state.placementAreas[basePlacement];
+  const targetPlacementAreaRect = store.state.placementAreas[targetPlacement];
 
-  const frontRectFromPlacementAreaCenterX =
-    frontRect.left! - frontPlacementArea.left!;
-  const frontRectFromPlacementAreaCenterY =
-    frontRect.top! - frontPlacementArea.top!;
+  const diffX = baseRect.left! - basePlacementAreaRect.left!;
+  const diffY = baseRect.top! - basePlacementAreaRect.top!;
 
-  const ratioX = placementArea.width! / frontPlacementArea.width!;
-  const ratioY = placementArea.height! / frontPlacementArea.height!;
-
-  // TODO: choosy min or max dynmically based on ratioX and ratioY relative to 1
+  const ratioX = targetPlacementAreaRect.width! / basePlacementAreaRect.width!;
+  const ratioY =
+    targetPlacementAreaRect.height! / basePlacementAreaRect.height!;
   const ratio = Math.min(ratioX, ratioY);
 
-  const rect: Rect = {
-    ...frontRect,
-    left: placementArea.left! + frontRectFromPlacementAreaCenterX * ratio,
-    top: placementArea.top! + frontRectFromPlacementAreaCenterY * ratio,
-    width: frontRect.width! * ratio,
-    height: frontRect.height! * ratio,
+  return {
+    ...baseRect,
+    left: targetPlacementAreaRect.left! + diffX * ratio,
+    top: targetPlacementAreaRect.top! + diffY * ratio,
+    width: baseRect.width! * ratio,
+    height: baseRect.height! * ratio,
   };
-
-  return rect;
 };
 
-const updateLayerPlacementRect = (
+const updateLayerRectPlacement = (
   layer: keyof Layers,
-  placement: keyof Placements,
-  rect: Rect
+  rect: Rect,
+  basePlacement: keyof Placements,
+  targetPlacement: keyof Placements
 ) => {
-  const magicRect = doMagic(layer, placement, rect);
+  const mappedRect = mapRectToPlacement(rect, basePlacement, targetPlacement);
   store.commit(MutationType.UPDATE_LAYER_RECT, {
     layer,
-    placement,
-    data: magicRect,
+    placement: targetPlacement,
+    data: mappedRect,
   });
 };
 
-const updateLayerRect = (layer: keyof Layers, rect: Rect) => {
-  updateLayerPlacementRect(layer, "back", rect);
-  updateLayerPlacementRect(layer, "leftSleeve", rect);
-  updateLayerPlacementRect(layer, "rightSleeve", rect);
+const updateLayerRects = (layer: keyof Layers, rect: Rect) => {
+  updateLayerRectPlacement(layer, rect, "front", "back");
+  updateLayerRectPlacement(layer, rect, "front", "leftSleeve");
+  updateLayerRectPlacement(layer, rect, "front", "rightSleeve");
 };
 
 onMounted(() => {
-  updateLayerRect("rectangle1", store.state.layers.rectangle1.front);
-  updateLayerRect("rectangle2", store.state.layers.rectangle2.front);
+  updateLayerRects("rectangle1", store.state.layers.rectangle1.front);
+  updateLayerRects("rectangle2", store.state.layers.rectangle2.front);
 });
 
 watch(
   () => store.state.layers.rectangle1.front,
   (newRect1) => {
-    updateLayerRect("rectangle1", newRect1);
+    updateLayerRects("rectangle1", newRect1);
   },
   { deep: true }
 );
 watch(
   () => store.state.layers.rectangle2.front,
   (newRect2) => {
-    updateLayerRect("rectangle2", newRect2);
+    updateLayerRects("rectangle2", newRect2);
   },
   { deep: true }
 );
