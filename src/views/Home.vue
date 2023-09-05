@@ -13,16 +13,16 @@ const currentTab = ref<string | null>(null);
     <v-card-text>
       <v-row>
         <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas position="front"></Canvas>
+          <Canvas placement="front"></Canvas>
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas position="back"></Canvas>
+          <Canvas placement="back"></Canvas>
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas position="leftSleeve"></Canvas>
+          <Canvas placement="leftSleeve"></Canvas>
         </v-col>
         <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas position="rightSleeve"></Canvas>
+          <Canvas placement="rightSleeve"></Canvas>
         </v-col>
       </v-row>
     </v-card-text>
