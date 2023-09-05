@@ -10,7 +10,7 @@ const props = defineProps<{
   placement: keyof Placements;
 }>();
 
-const createPositionRef = (rectOption: keyof Rect) =>
+const createPlacementRectOptionRef = (rectOption: keyof Rect) =>
   props.layer
     ? createLayerPlacementRectOptionRef(
         props.layer,
@@ -19,10 +19,10 @@ const createPositionRef = (rectOption: keyof Rect) =>
       )
     : createPlacementAreaRectOptionRef(props.placement, rectOption);
 
-const left = createPositionRef("left");
-const top = createPositionRef("top");
-const width = createPositionRef("width");
-const height = createPositionRef("height");
+const left = createPlacementRectOptionRef("left");
+const top = createPlacementRectOptionRef("top");
+const width = createPlacementRectOptionRef("width");
+const height = createPlacementRectOptionRef("height");
 </script>
 
 <template>
