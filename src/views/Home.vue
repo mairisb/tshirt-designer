@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Canvas from "../components/Canvas.vue";
+import PlacementDisplay from "../components/PlacementDisplay.vue";
 import RectInputs from "../components/RectInputs.vue";
 
 const currentTab = ref<string | null>(null);
@@ -10,22 +10,7 @@ const currentTab = ref<string | null>(null);
   <h1 class="text-h4 mb-4">Design your T-shirt</h1>
 
   <v-card>
-    <v-card-text>
-      <v-row>
-        <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas placement="front"></Canvas>
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas placement="back"></Canvas>
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas placement="leftSleeve"></Canvas>
-        </v-col>
-        <v-col cols="12" md="6" class="d-flex justify-center">
-          <Canvas placement="rightSleeve"></Canvas>
-        </v-col>
-      </v-row>
-    </v-card-text>
+    <v-card-text><PlacementDisplay></PlacementDisplay></v-card-text>
 
     <v-tabs v-model="currentTab" fixed-tabs center-active>
       <v-tab value="print-areas">Placement areas</v-tab>
