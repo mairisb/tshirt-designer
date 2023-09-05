@@ -1,6 +1,7 @@
 import { fabric } from "fabric";
 import { computed } from "vue";
 import { createStore } from "vuex";
+import { initialState } from "./inital-state";
 
 export type Rect = Partial<fabric.Rect>;
 
@@ -25,88 +26,7 @@ export const UPDATE_PLACEMENT_AREA_RECT = "UPDATE_PLACEMENT_AREA_RECT";
 export const UPDATE_LAYER_RECT = "UPDATE_LAYER";
 
 export const store = createStore<State>({
-  state: {
-    placementAreas: {
-      front: {
-        left: 200,
-        top: 200,
-        width: 150,
-        height: 250,
-      },
-      back: {
-        left: 200,
-        top: 200,
-        width: 100,
-        height: 100,
-      },
-      leftSleeve: {
-        left: 200,
-        top: 200,
-        width: 100,
-        height: 100,
-      },
-      rightSleeve: {
-        left: 200,
-        top: 200,
-        width: 100,
-        height: 100,
-      },
-    },
-    layers: {
-      rectangle1: {
-        front: {
-          left: 200,
-          top: 200,
-          width: 50,
-          height: 50,
-        },
-        back: {
-          left: 200,
-          top: 200,
-          width: 50,
-          height: 50,
-        },
-        leftSleeve: {
-          left: 200,
-          top: 200,
-          width: 50,
-          height: 50,
-        },
-        rightSleeve: {
-          left: 200,
-          top: 200,
-          width: 50,
-          height: 50,
-        },
-      },
-      rectangle2: {
-        front: {
-          left: 220,
-          top: 220,
-          width: 30,
-          height: 50,
-        },
-        back: {
-          left: 220,
-          top: 220,
-          width: 30,
-          height: 50,
-        },
-        leftSleeve: {
-          left: 220,
-          top: 220,
-          width: 30,
-          height: 50,
-        },
-        rightSleeve: {
-          left: 220,
-          top: 220,
-          width: 30,
-          height: 50,
-        },
-      },
-    },
-  },
+  state: initialState,
   mutations: {
     [UPDATE_PLACEMENT_AREA_RECT](
       state,
