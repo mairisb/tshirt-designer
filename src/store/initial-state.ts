@@ -12,20 +12,20 @@ const initialState: State = {
     back: {
       left: 200,
       top: 200,
-      width: 100,
-      height: 100,
+      width: 300,
+      height: 300,
     },
     leftSleeve: {
-      left: 200,
-      top: 200,
-      width: 100,
-      height: 100,
+      left: 250,
+      top: 100,
+      width: 250,
+      height: 150,
     },
     rightSleeve: {
-      left: 200,
+      left: 100,
       top: 200,
       width: 100,
-      height: 100,
+      height: 350,
     },
   },
   layers: {
