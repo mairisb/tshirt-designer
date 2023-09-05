@@ -60,24 +60,42 @@ onMounted(() => {
   }
 });
 
-function watchAndRender(watchObject: any, rectToUpdate: fabric.Rect | null) {
-  watch(
-    () => watchObject,
-    (newState) => {
-      if (rectToUpdate) {
-        rectToUpdate.set(newState[props.placement]);
-      }
-      if (canvas) {
-        canvas.renderAll();
-      }
-    },
-    { deep: true }
-  );
-}
-
-watchAndRender(store.state.placementAreas, placementArea);
-watchAndRender(store.state.layers.rectangle1, rectangle1);
-watchAndRender(store.state.layers.rectangle2, rectangle2);
+watch(
+  () => store.state.placementAreas,
+  (newPlacements) => {
+    if (placementArea) {
+      placementArea.set(newPlacements[props.placement]);
+    }
+    if (canvas) {
+      canvas.renderAll();
+    }
+  },
+  { deep: true }
+);
+watch(
+  () => store.state.layers.rectangle1,
+  (newRectangle1) => {
+    if (rectangle1) {
+      rectangle1.set(newRectangle1[props.placement]);
+    }
+    if (canvas) {
+      canvas.renderAll();
+    }
+  },
+  { deep: true }
+);
+watch(
+  () => store.state.layers.rectangle2,
+  (newRectangle2) => {
+    if (rectangle2) {
+      rectangle2.set(newRectangle2[props.placement]);
+    }
+    if (canvas) {
+      canvas.renderAll();
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <template>

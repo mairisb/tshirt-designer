@@ -7,7 +7,7 @@ const initialState: State = {
       left: 200,
       top: 200,
       width: 150,
-      height: 250,
+      height: 150,
     },
     back: {
       left: 200,
@@ -16,16 +16,16 @@ const initialState: State = {
       height: 300,
     },
     leftSleeve: {
-      left: 250,
-      top: 100,
-      width: 250,
-      height: 150,
+      left: 200,
+      top: 200,
+      width: 200,
+      height: 300,
     },
     rightSleeve: {
-      left: 100,
+      left: 200,
       top: 200,
-      width: 100,
-      height: 350,
+      width: 300,
+      height: 200,
     },
   },
   layers: {
