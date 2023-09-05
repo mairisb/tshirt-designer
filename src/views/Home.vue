@@ -1,51 +1,12 @@
 <script setup lang="ts">
-import { MutationType } from "@/store/mutation-type.enum";
 import { onMounted, ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
 import RectInputs from "../components/RectInputs.vue";
+import { updateLayerRectPlacement } from "../core/core.utils";
 import { store } from "../store";
-import { Layers, Placements, Rect } from "../store/state.type";
+import { Layers, Rect } from "../store/state.type";
 
 const currentTab = ref<string | null>(null);
-
-const mapRectToPlacement = (
-  baseRect: Rect,
-  basePlacement: keyof Placements,
-  targetPlacement: keyof Placements
-): Rect => {
-  const basePlacementAreaRect = store.state.placementAreas[basePlacement];
-  const targetPlacementAreaRect = store.state.placementAreas[targetPlacement];
-
-  const diffX = baseRect.left! - basePlacementAreaRect.left!;
-  const diffY = baseRect.top! - basePlacementAreaRect.top!;
-
-  const ratioX = targetPlacementAreaRect.width! / basePlacementAreaRect.width!;
-  const ratioY =
-    targetPlacementAreaRect.height! / basePlacementAreaRect.height!;
-  const ratio = Math.min(ratioX, ratioY);
-
-  return {
-    ...baseRect,
-    left: targetPlacementAreaRect.left! + diffX * ratio,
-    top: targetPlacementAreaRect.top! + diffY * ratio,
-    width: baseRect.width! * ratio,
-    height: baseRect.height! * ratio,
-  };
-};
-
-const updateLayerRectPlacement = (
-  layer: keyof Layers,
-  rect: Rect,
-  basePlacement: keyof Placements,
-  targetPlacement: keyof Placements
-) => {
-  const mappedRect = mapRectToPlacement(rect, basePlacement, targetPlacement);
-  store.commit(MutationType.UPDATE_LAYER_RECT, {
-    layer,
-    placement: targetPlacement,
-    data: mappedRect,
-  });
-};
 
 const updateLayerRects = (layer: keyof Layers, rect: Rect) => {
   updateLayerRectPlacement(layer, rect, "front", "back");

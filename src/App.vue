@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { RouterView } from "vue-router";
-</script>
-
 <template>
   <v-app>
     <v-main>
@@ -9,7 +5,7 @@ import { RouterView } from "vue-router";
         <v-app-bar-title>T-shirt designer</v-app-bar-title>
       </v-app-bar>
       <v-container>
-        <RouterView />
+        <router-view />
       </v-container>
     </v-main>
   </v-app>
