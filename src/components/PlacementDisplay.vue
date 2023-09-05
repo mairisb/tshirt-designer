@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PlacementCanvas from "../components/PlacementCanvas.vue";
+import PlacementCanvas from "../components/placement-canvas/PlacementCanvas.vue";
 </script>
 <template>
   <v-row>
