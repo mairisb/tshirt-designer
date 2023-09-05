@@ -1,5 +1,5 @@
 import { mapRectToPlacement } from "../core";
-import { State } from "./state.type";
+import { Layers, State } from "./state.type";
 
 const initialState: State = {
   placementAreas: {
@@ -54,43 +54,33 @@ const initialState: State = {
   },
 };
 
-const frontPlacement = initialState.placementAreas.front;
-const backPlacement = initialState.placementAreas.back;
-const leftSleevePlacement = initialState.placementAreas.leftSleeve;
-const rightSleevePlacement = initialState.placementAreas.rightSleeve;
+const {
+  front: frontPlacement,
+  back: backPlacement,
+  leftSleeve: leftSleevePlacement,
+  rightSleeve: rightSleevePlacement,
+} = initialState.placementAreas;
 
-const rect1Front = initialState.layers.rectangle1.front;
-initialState.layers.rectangle1.back = mapRectToPlacement(
-  rect1Front,
-  frontPlacement,
-  backPlacement
-);
-initialState.layers.rectangle1.leftSleeve = mapRectToPlacement(
-  rect1Front,
-  frontPlacement,
-  leftSleevePlacement
-);
-initialState.layers.rectangle1.rightSleeve = mapRectToPlacement(
-  rect1Front,
-  frontPlacement,
-  rightSleevePlacement
-);
+function mapRectToAllPlacements(initialState: State, rectKey: keyof Layers) {
+  const rectFront = initialState.layers[rectKey].front;
+  initialState.layers[rectKey].back = mapRectToPlacement(
+    rectFront,
+    frontPlacement,
+    backPlacement
+  );
+  initialState.layers[rectKey].leftSleeve = mapRectToPlacement(
+    rectFront,
+    frontPlacement,
+    leftSleevePlacement
+  );
+  initialState.layers[rectKey].rightSleeve = mapRectToPlacement(
+    rectFront,
+    frontPlacement,
+    rightSleevePlacement
+  );
+}
 
-const rect2Front = initialState.layers.rectangle2.front;
-initialState.layers.rectangle2.back = mapRectToPlacement(
-  rect2Front,
-  frontPlacement,
-  backPlacement
-);
-initialState.layers.rectangle2.leftSleeve = mapRectToPlacement(
-  rect2Front,
-  frontPlacement,
-  leftSleevePlacement
-);
-initialState.layers.rectangle2.rightSleeve = mapRectToPlacement(
-  rect2Front,
-  frontPlacement,
-  rightSleevePlacement
-);
+mapRectToAllPlacements(initialState, "rectangle1");
+mapRectToAllPlacements(initialState, "rectangle2");
 
 export { initialState };
