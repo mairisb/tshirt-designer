@@ -1,3 +1,4 @@
+import { mapRectToPlacement } from "@/core/core.utils";
 import { State } from "./state.type";
 
 const initialState: State = {
@@ -52,5 +53,44 @@ const initialState: State = {
     },
   },
 };
+
+const frontPlacement = initialState.placementAreas.front;
+const backPlacement = initialState.placementAreas.back;
+const leftSleevePlacement = initialState.placementAreas.leftSleeve;
+const rightSleevePlacement = initialState.placementAreas.rightSleeve;
+
+const rect1Front = initialState.layers.rectangle1.front;
+initialState.layers.rectangle1.back = mapRectToPlacement(
+  rect1Front,
+  frontPlacement,
+  backPlacement
+);
+initialState.layers.rectangle1.leftSleeve = mapRectToPlacement(
+  rect1Front,
+  frontPlacement,
+  leftSleevePlacement
+);
+initialState.layers.rectangle1.rightSleeve = mapRectToPlacement(
+  rect1Front,
+  frontPlacement,
+  rightSleevePlacement
+);
+
+const rect2Front = initialState.layers.rectangle2.front;
+initialState.layers.rectangle2.back = mapRectToPlacement(
+  rect2Front,
+  frontPlacement,
+  backPlacement
+);
+initialState.layers.rectangle2.leftSleeve = mapRectToPlacement(
+  rect2Front,
+  frontPlacement,
+  leftSleevePlacement
+);
+initialState.layers.rectangle2.rightSleeve = mapRectToPlacement(
+  rect2Front,
+  frontPlacement,
+  rightSleevePlacement
+);
 
 export { initialState };

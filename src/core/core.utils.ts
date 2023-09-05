@@ -2,14 +2,11 @@ import { store } from "../store";
 import { MutationType } from "../store/mutation-type.enum";
 import { Layers, Placements, Rect } from "../store/state.type";
 
-const mapRectToPlacement = (
+export const mapRectToPlacement = (
   baseRect: Rect,
-  basePlacement: keyof Placements,
-  targetPlacement: keyof Placements
+  basePlacementAreaRect: Rect,
+  targetPlacementAreaRect: Rect
 ): Rect => {
-  const basePlacementAreaRect = store.state.placementAreas[basePlacement];
-  const targetPlacementAreaRect = store.state.placementAreas[targetPlacement];
-
   const diffX = baseRect.left! - basePlacementAreaRect.left!;
   const diffY = baseRect.top! - basePlacementAreaRect.top!;
 
@@ -33,7 +30,11 @@ export const updateLayerRectPlacement = (
   basePlacement: keyof Placements,
   targetPlacement: keyof Placements
 ) => {
-  const mappedRect = mapRectToPlacement(rect, basePlacement, targetPlacement);
+  const mappedRect = mapRectToPlacement(
+    rect,
+    store.state.placementAreas[basePlacement],
+    store.state.placementAreas[targetPlacement]
+  );
   store.commit(MutationType.UPDATE_LAYER_RECT, {
     layer,
     placement: targetPlacement,
