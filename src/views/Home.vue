@@ -11,17 +11,17 @@ watch(
   (newRectangle1Front) => {
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
-      position: "back",
+      placement: "back",
       data: newRectangle1Front,
     });
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
-      position: "leftSleeve",
+      placement: "leftSleeve",
       data: newRectangle1Front,
     });
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
-      position: "rightSleeve",
+      placement: "rightSleeve",
       data: newRectangle1Front,
     });
   },
@@ -32,17 +32,17 @@ watch(
   (newRectangle2Front) => {
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
-      position: "back",
+      placement: "back",
       data: newRectangle2Front,
     });
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
-      position: "leftSleeve",
+      placement: "leftSleeve",
       data: newRectangle2Front,
     });
     store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
-      position: "rightSleeve",
+      placement: "rightSleeve",
       data: newRectangle2Front,
     });
   },

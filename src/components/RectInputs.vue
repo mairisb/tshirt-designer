@@ -50,6 +50,7 @@ const height = createPositionRef("height");
         v-model="width"
         label="width"
         type="number"
+        min="0"
         variant="underlined"
       ></v-text-field>
     </v-col>
@@ -58,6 +59,7 @@ const height = createPositionRef("height");
         v-model="height"
         label="height"
         type="number"
+        min="0"
         variant="underlined"
       ></v-text-field>
     </v-col>
