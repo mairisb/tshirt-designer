@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { MutationType } from "@/store/mutation-type.enum";
+import { onMounted, ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
 import RectInputs from "../components/RectInputs.vue";
-import {
-  Layers,
-  Placements,
-  Rect,
-  UPDATE_LAYER_RECT,
-  store,
-} from "../plugins/store";
-import { onMounted } from "vue";
+import { store } from "../store";
+import { Layers, Placements, Rect } from "../store/state.type";
 
 const currentTab = ref<string | null>(null);
 
@@ -49,7 +44,7 @@ const updateLayerPlacementRect = (
   rect: Rect
 ) => {
   const magicRect = doMagic(layer, placement, rect);
-  store.commit(UPDATE_LAYER_RECT, {
+  store.commit(MutationType.UPDATE_LAYER_RECT, {
     layer,
     placement,
     data: magicRect,
@@ -63,11 +58,8 @@ const updateLayerRect = (layer: keyof Layers, rect: Rect) => {
 };
 
 onMounted(() => {
-  const rect1 = store.state.layers.rectangle1.front;
-  const rect2 = store.state.layers.rectangle2.front;
-
-  updateLayerRect("rectangle1", rect1);
-  updateLayerRect("rectangle2", rect2);
+  updateLayerRect("rectangle1", store.state.layers.rectangle1.front);
+  updateLayerRect("rectangle2", store.state.layers.rectangle2.front);
 });
 
 watch(

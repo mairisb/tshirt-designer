@@ -2,7 +2,7 @@
 import { fabric } from "fabric";
 import { onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { Placements, State } from "../plugins/store";
+import { Placements, State } from "../store/state";
 
 const props = defineProps<{
   position: keyof Placements;
@@ -100,3 +100,4 @@ watch(
 <template>
   <canvas ref="canvasRef" width="400" height="400"></canvas>
 </template>
+../store/store ../store ../store/state.type ../store/state ../store/state.type

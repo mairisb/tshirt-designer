@@ -1,11 +1,9 @@
 <script setup lang="ts">
+import { Layers, Placements, Rect } from "../store/state.type";
 import {
-  Layers,
-  Placements,
-  Rect,
   createLayerPlacementRectOptionRef,
   createPlacementAreaRectOptionRef,
-} from "../plugins/store";
+} from "../store/store.utils";
 
 const props = defineProps<{
   layer?: keyof Layers;

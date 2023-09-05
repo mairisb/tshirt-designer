@@ -1,4 +1,4 @@
-import { State } from "./store";
+import { State } from "./state.type";
 
 const initialState: State = {
   placementAreas: {
