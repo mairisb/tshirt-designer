@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { initialState } from "./inital-state";
+import { initialState } from "./initial-state";
 import { Layers, Placements, Rect, State } from "./state.type";
 import { MutationType } from "./mutation-type.enum";
 
