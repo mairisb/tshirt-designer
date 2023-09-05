@@ -1,4 +1,4 @@
-import { mapRectToPlacement } from "@/core/core.utils";
+import { mapRectToPlacement } from "../core";
 import { State } from "./state.type";
 
 const initialState: State = {

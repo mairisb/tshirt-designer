@@ -1,38 +1,36 @@
 <script setup lang="ts">
 import { watch } from "vue";
-import { updateLayerRectPlacement } from "./core/core.utils";
+import { updateLayerRectPlacement } from "./core";
 import { store } from "./store";
 import { Layers, Rect } from "./store/state.type";
 
-const updateLayerRects = (layer: keyof Layers, rect: Rect) => {
-  updateLayerRectPlacement(layer, rect, "front", "back");
-  updateLayerRectPlacement(layer, rect, "front", "leftSleeve");
-  updateLayerRectPlacement(layer, rect, "front", "rightSleeve");
+// Update the placement rectangles for a given layer based on its front rectangle
+const updateLayerFromFrontRect = (layer: keyof Layers, frontRect: Rect) => {
+  updateLayerRectPlacement(layer, frontRect, "front", "back");
+  updateLayerRectPlacement(layer, frontRect, "front", "leftSleeve");
+  updateLayerRectPlacement(layer, frontRect, "front", "rightSleeve");
 };
-
-watch(
-  () => store.state.layers.rectangle1.front,
-  (newRect1) => {
-    updateLayerRects("rectangle1", newRect1);
-  },
-  { deep: true }
-);
-watch(
-  () => store.state.layers.rectangle2.front,
-  (newRect2) => {
-    updateLayerRects("rectangle2", newRect2);
-  },
-  { deep: true }
-);
 
 watch(
   () => store.state.placementAreas,
   () => {
-    updateLayerRects("rectangle1", store.state.layers.rectangle1.front);
-    updateLayerRects("rectangle2", store.state.layers.rectangle2.front);
+    updateLayerFromFrontRect("rectangle1", store.state.layers.rectangle1.front);
+    updateLayerFromFrontRect("rectangle2", store.state.layers.rectangle2.front);
   },
   { deep: true }
 );
+
+const watchLayerFrontRect = (layer: keyof Layers) => {
+  watch(
+    () => store.state.layers[layer].front,
+    (frontRect) => {
+      updateLayerFromFrontRect(layer, frontRect);
+    },
+    { deep: true }
+  );
+};
+watchLayerFrontRect("rectangle1");
+watchLayerFrontRect("rectangle2");
 </script>
 
 <template>
