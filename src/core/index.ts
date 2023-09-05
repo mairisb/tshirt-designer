@@ -1,3 +1,4 @@
+import { watch } from "vue";
 import { store } from "../store";
 import { MutationType } from "../store/mutation-type.enum";
 import { Layers, Placements, Rect } from "../store/state.type";
@@ -40,4 +41,40 @@ export const updateLayerRectPlacement = (
     placement: targetPlacement,
     data: mappedRect,
   });
+};
+
+export const updateLayerFromFrontRect = (
+  layer: keyof Layers,
+  frontRect: Rect
+) => {
+  updateLayerRectPlacement(layer, frontRect, "front", "back");
+  updateLayerRectPlacement(layer, frontRect, "front", "leftSleeve");
+  updateLayerRectPlacement(layer, frontRect, "front", "rightSleeve");
+};
+
+export const watchPlacementAreas = () => {
+  watch(
+    () => store.state.placementAreas,
+    () => {
+      updateLayerFromFrontRect(
+        "rectangle1",
+        store.state.layers.rectangle1.front
+      );
+      updateLayerFromFrontRect(
+        "rectangle2",
+        store.state.layers.rectangle2.front
+      );
+    },
+    { deep: true }
+  );
+};
+
+export const watchLayerFrontRect = (layer: keyof Layers) => {
+  watch(
+    () => store.state.layers[layer].front,
+    (frontRect) => {
+      updateLayerFromFrontRect(layer, frontRect);
+    },
+    { deep: true }
+  );
 };
