@@ -2,49 +2,65 @@
 import { ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
 import RectInputs from "../components/RectInputs.vue";
-import { UPDATE_LAYER_RECT, store } from "../plugins/store";
+import {
+  Layers,
+  Placements,
+  Rect,
+  UPDATE_LAYER_RECT,
+  store,
+} from "../plugins/store";
+import { onMounted } from "vue";
 
 const currentTab = ref<string | null>(null);
 
+const doMagic = (
+  layer: keyof Layers,
+  placement: keyof Placements,
+  rect: Rect
+) => {
+  // Magic goes here
+
+  return rect;
+};
+
+const updateLayerPlacementRect = (
+  layer: keyof Layers,
+  placement: keyof Placements,
+  rect: Rect
+) => {
+  const magicRect = doMagic(layer, placement, rect);
+  store.commit(UPDATE_LAYER_RECT, {
+    layer,
+    placement,
+    data: magicRect,
+  });
+};
+
+const updateLayerRect = (layer: keyof Layers, rect: Rect) => {
+  updateLayerPlacementRect(layer, "back", rect);
+  updateLayerPlacementRect(layer, "leftSleeve", rect);
+  updateLayerPlacementRect(layer, "rightSleeve", rect);
+};
+
+onMounted(() => {
+  const rect1 = store.state.layers.rectangle1.front;
+  const rect2 = store.state.layers.rectangle2.front;
+
+  updateLayerRect("rectangle1", rect1);
+  updateLayerRect("rectangle2", rect2);
+});
+
 watch(
   () => store.state.layers.rectangle1.front,
-  (newRectangle1Front) => {
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle1",
-      placement: "back",
-      data: newRectangle1Front,
-    });
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle1",
-      placement: "leftSleeve",
-      data: newRectangle1Front,
-    });
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle1",
-      placement: "rightSleeve",
-      data: newRectangle1Front,
-    });
+  (newRect1) => {
+    updateLayerRect("rectangle1", newRect1);
   },
   { deep: true }
 );
 watch(
   () => store.state.layers.rectangle2.front,
-  (newRectangle2Front) => {
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle2",
-      placement: "back",
-      data: newRectangle2Front,
-    });
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle2",
-      placement: "leftSleeve",
-      data: newRectangle2Front,
-    });
-    store.commit(UPDATE_LAYER_RECT, {
-      layer: "rectangle2",
-      placement: "rightSleeve",
-      data: newRectangle2Front,
-    });
+  (newRect2) => {
+    updateLayerRect("rectangle2", newRect2);
   },
   { deep: true }
 );
