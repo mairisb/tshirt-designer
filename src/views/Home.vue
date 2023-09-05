@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
-import PositionInputs from "../components/PositionInputs.vue";
+import RectInputs from "../components/RectInputs.vue";
 import { UPDATE_LAYER_RECT, store } from "../plugins/store";
 
 const currentTab = ref<string | null>(null);
@@ -73,31 +73,31 @@ watch(
 
     <v-tabs v-model="currentTab" fixed-tabs center-active>
       <v-tab value="print-areas">Placement areas</v-tab>
-      <v-tab value="designs">Designs</v-tab>
+      <v-tab value="design">Design</v-tab>
     </v-tabs>
 
     <v-card-text>
       <v-window v-model="currentTab">
         <v-window-item value="print-areas">
           <h3 class="text-h6">Front</h3>
-          <PositionInputs placement="front" />
+          <RectInputs placement="front" />
 
           <h3 class="text-h6">Back</h3>
-          <PositionInputs placement="back" />
+          <RectInputs placement="back" />
 
           <h3 class="text-h6">Left sleeve</h3>
-          <PositionInputs placement="leftSleeve" />
+          <RectInputs placement="leftSleeve" />
 
           <h3 class="text-h6">Right sleeve</h3>
-          <PositionInputs placement="rightSleeve" />
+          <RectInputs placement="rightSleeve" />
         </v-window-item>
 
-        <v-window-item value="designs">
+        <v-window-item value="design">
           <h3 class="text-h6">Rectangle 1 (Front)</h3>
-          <PositionInputs layer="rectangle1" placement="front" />
+          <RectInputs layer="rectangle1" placement="front" />
 
           <h3 class="text-h6">Rectangle 2 (Front)</h3>
-          <PositionInputs layer="rectangle2" placement="front" />
+          <RectInputs layer="rectangle2" placement="front" />
         </v-window-item>
       </v-window>
     </v-card-text>
