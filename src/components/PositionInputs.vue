@@ -1,20 +1,25 @@
 <script setup lang="ts">
 import {
   Layers,
-  Positions,
-  createLayerPositionRef,
-  createPlacementPositionRef,
+  Placements,
+  Rect,
+  createLayerPlacementRectOptionRef,
+  createPlacementAreaRectOptionRef,
 } from "../plugins/store";
 
 const props = defineProps<{
   layer?: keyof Layers;
-  position: keyof Positions;
+  placement: keyof Placements;
 }>();
 
-const createPositionRef = (rectOption: keyof fabric.Rect) =>
+const createPositionRef = (rectOption: keyof Rect) =>
   props.layer
-    ? createLayerPositionRef(props.layer, props.position, rectOption)
-    : createPlacementPositionRef(props.position, rectOption);
+    ? createLayerPlacementRectOptionRef(
+        props.layer,
+        props.placement,
+        rectOption
+      )
+    : createPlacementAreaRectOptionRef(props.placement, rectOption);
 
 const left = createPositionRef("left");
 const top = createPositionRef("top");

@@ -2,24 +2,24 @@
 import { ref, watch } from "vue";
 import Canvas from "../components/Canvas.vue";
 import PositionInputs from "../components/PositionInputs.vue";
-import { store, UPDATE_LAYER } from "../plugins/store";
+import { UPDATE_LAYER_RECT, store } from "../plugins/store";
 
 const currentTab = ref<string | null>(null);
 
 watch(
   () => store.state.layers.rectangle1.front,
   (newRectangle1Front) => {
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
       position: "back",
       data: newRectangle1Front,
     });
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
       position: "leftSleeve",
       data: newRectangle1Front,
     });
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle1",
       position: "rightSleeve",
       data: newRectangle1Front,
@@ -30,17 +30,17 @@ watch(
 watch(
   () => store.state.layers.rectangle2.front,
   (newRectangle2Front) => {
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
       position: "back",
       data: newRectangle2Front,
     });
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
       position: "leftSleeve",
       data: newRectangle2Front,
     });
-    store.commit(UPDATE_LAYER, {
+    store.commit(UPDATE_LAYER_RECT, {
       layer: "rectangle2",
       position: "rightSleeve",
       data: newRectangle2Front,
@@ -80,24 +80,24 @@ watch(
       <v-window v-model="currentTab">
         <v-window-item value="print-areas">
           <h3 class="text-h6">Front</h3>
-          <PositionInputs position="front" />
+          <PositionInputs placement="front" />
 
           <h3 class="text-h6">Back</h3>
-          <PositionInputs position="back" />
+          <PositionInputs placement="back" />
 
           <h3 class="text-h6">Left sleeve</h3>
-          <PositionInputs position="leftSleeve" />
+          <PositionInputs placement="leftSleeve" />
 
           <h3 class="text-h6">Right sleeve</h3>
-          <PositionInputs position="rightSleeve" />
+          <PositionInputs placement="rightSleeve" />
         </v-window-item>
 
         <v-window-item value="designs">
-          <h3 class="text-h6">Rectangle 1</h3>
-          <PositionInputs layer="rectangle1" position="front" />
+          <h3 class="text-h6">Rectangle 1 (Front)</h3>
+          <PositionInputs layer="rectangle1" placement="front" />
 
-          <h3 class="text-h6">Rectangle 2</h3>
-          <PositionInputs layer="rectangle2" position="front" />
+          <h3 class="text-h6">Rectangle 2 (Front)</h3>
+          <PositionInputs layer="rectangle2" placement="front" />
         </v-window-item>
       </v-window>
     </v-card-text>

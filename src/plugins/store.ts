@@ -1,30 +1,32 @@
-import { createStore } from "vuex";
 import { fabric } from "fabric";
 import { computed } from "vue";
+import { createStore } from "vuex";
 
-export interface Positions {
-  front: Partial<fabric.Rect>;
-  back: Partial<fabric.Rect>;
-  leftSleeve: Partial<fabric.Rect>;
-  rightSleeve: Partial<fabric.Rect>;
+export type Rect = Partial<fabric.Rect>;
+
+export interface Placements {
+  front: Rect;
+  back: Rect;
+  leftSleeve: Rect;
+  rightSleeve: Rect;
 }
 
 export interface Layers {
-  rectangle1: Positions;
-  rectangle2: Positions;
+  rectangle1: Placements;
+  rectangle2: Placements;
 }
 
 export interface State {
-  placements: Positions;
+  placementAreas: Placements;
   layers: Layers;
 }
 
-export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
-export const UPDATE_LAYER = "UPDATE_LAYER";
+export const UPDATE_PLACEMENT_AREA_RECT = "UPDATE_PLACEMENT_AREA_RECT";
+export const UPDATE_LAYER_RECT = "UPDATE_LAYER";
 
 export const store = createStore<State>({
   state: {
-    placements: {
+    placementAreas: {
       front: {
         left: 200,
         top: 200,
@@ -106,68 +108,71 @@ export const store = createStore<State>({
     },
   },
   mutations: {
-    [UPDATE_PLACEMENT](
+    [UPDATE_PLACEMENT_AREA_RECT](
       state,
-      payload: { position: keyof Positions; data: Partial<fabric.Rect> }
+      payload: {
+        placementArea: keyof Placements;
+        data: Rect;
+      }
     ) {
-      state.placements[payload.position] = {
-        ...state.placements[payload.position],
+      state.placementAreas[payload.placementArea] = {
+        ...state.placementAreas[payload.placementArea],
         ...payload.data,
       };
     },
-    [UPDATE_LAYER](
+    [UPDATE_LAYER_RECT](
       state,
       payload: {
         layer: keyof Layers;
-        position: keyof Positions;
-        data: Partial<fabric.Rect>;
+        placement: keyof Placements;
+        data: Rect;
       }
     ) {
-      state.layers[payload.layer][payload.position] = {
-        ...state.layers[payload.layer][payload.position],
+      state.layers[payload.layer][payload.placement] = {
+        ...state.layers[payload.layer][payload.placement],
         ...payload.data,
       };
     },
   },
   getters: {
-    getPlacement: (state) => (position: keyof Positions) => {
-      return state.placements[position];
+    getPlacement: (state) => (placement: keyof Placements) => {
+      return state.placementAreas[placement];
     },
-    getLayer: (state) => (layer: keyof Layers, position: keyof Positions) => {
-      return state.layers[layer][position];
+    getLayer: (state) => (layer: keyof Layers, placement: keyof Placements) => {
+      return state.layers[layer][placement];
     },
   },
 });
 
-export const createLayerPositionRef = (
+export const createLayerPlacementRectOptionRef = (
   layer: keyof Layers,
-  position: keyof Positions,
-  rectOpt: keyof fabric.Rect
+  placement: keyof Placements,
+  rectOption: keyof Rect
 ) =>
   computed({
-    get: () => store.state.layers[layer][position][rectOpt],
+    get: () => store.state.layers[layer][placement][rectOption],
     set: (value) => {
-      store.commit(UPDATE_LAYER, {
+      store.commit(UPDATE_LAYER_RECT, {
         layer,
-        position,
+        placement,
         data: {
-          [rectOpt]: Math.round(value),
+          [rectOption]: Math.round(value),
         },
       });
     },
   });
 
-export const createPlacementPositionRef = (
-  position: keyof Positions,
-  rectOpt: keyof fabric.Rect
+export const createPlacementAreaRectOptionRef = (
+  placementArea: keyof Placements,
+  rectOption: keyof Rect
 ) =>
   computed({
-    get: () => store.state.placements[position][rectOpt],
+    get: () => store.state.placementAreas[placementArea][rectOption],
     set: (value) => {
-      store.commit(UPDATE_PLACEMENT, {
-        position,
+      store.commit(UPDATE_PLACEMENT_AREA_RECT, {
+        placementArea,
         data: {
-          [rectOpt]: Math.round(value),
+          [rectOption]: Math.round(value),
         },
       });
     },

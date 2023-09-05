@@ -2,10 +2,10 @@
 import { fabric } from "fabric";
 import { onMounted, ref, watch } from "vue";
 import { useStore } from "vuex";
-import { Positions, State } from "../plugins/store";
+import { Placements, State } from "../plugins/store";
 
 const props = defineProps<{
-  position: keyof Positions;
+  position: keyof Placements;
 }>();
 
 const defaultCanvasOpts: fabric.ICanvasOptions = {
@@ -41,7 +41,7 @@ onMounted(() => {
     canvas = new fabric.Canvas(canvasRef.value, defaultCanvasOpts);
     placement = new fabric.Rect({
       ...defaultPlacementRectOpts,
-      ...store.state.placements[props.position],
+      ...store.state.placementAreas[props.position],
     });
     rectangle1 = new fabric.Rect({
       ...defaultLayerRectOpts,
@@ -60,7 +60,7 @@ onMounted(() => {
 });
 
 watch(
-  () => store.state.placements,
+  () => store.state.placementAreas,
   (newPlacements) => {
     if (placement) {
       placement.set(newPlacements[props.position]);
