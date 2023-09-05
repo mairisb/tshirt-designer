@@ -16,9 +16,29 @@ const currentTab = ref<string | null>(null);
 const doMagic = (
   layer: keyof Layers,
   placement: keyof Placements,
-  rect: Rect
+  frontRect: Rect
 ) => {
-  // Magic goes here
+  const frontPlacementArea = store.state.placementAreas.front;
+  const placementArea = store.state.placementAreas[placement];
+
+  const frontRectFromPlacementAreaCenterX =
+    frontRect.left! - frontPlacementArea.left!;
+  const frontRectFromPlacementAreaCenterY =
+    frontRect.top! - frontPlacementArea.top!;
+
+  const ratioX = placementArea.width! / frontPlacementArea.width!;
+  const ratioY = placementArea.height! / frontPlacementArea.height!;
+
+  // TODO: choosy min or max dynmically based on ratioX and ratioY relative to 1
+  const ratio = Math.min(ratioX, ratioY);
+
+  const rect: Rect = {
+    ...frontRect,
+    left: placementArea.left! + frontRectFromPlacementAreaCenterX * ratio,
+    top: placementArea.top! + frontRectFromPlacementAreaCenterY * ratio,
+    width: frontRect.width! * ratio,
+    height: frontRect.height! * ratio,
+  };
 
   return rect;
 };
