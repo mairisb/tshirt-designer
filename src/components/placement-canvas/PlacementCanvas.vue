@@ -21,7 +21,7 @@ let rectangle2: fabric.Rect | null = null;
 
 const store = useStore<State>();
 
-const watchPlacementsAndRender = (
+const watchPlacementsUpdateRect = (
   watchPlacements: Placements,
   rectToUpdate: fabric.Rect | null
 ) => {
@@ -61,9 +61,9 @@ onMounted(() => {
     canvas.add(placementArea, rectangle1, rectangle2);
   }
 
-  watchPlacementsAndRender(store.state.placementAreas, placementArea);
-  watchPlacementsAndRender(store.state.layers.rectangle1, rectangle1);
-  watchPlacementsAndRender(store.state.layers.rectangle2, rectangle2);
+  watchPlacementsUpdateRect(store.state.placementAreas, placementArea);
+  watchPlacementsUpdateRect(store.state.layers.rectangle1, rectangle1);
+  watchPlacementsUpdateRect(store.state.layers.rectangle2, rectangle2);
 });
 </script>
 
