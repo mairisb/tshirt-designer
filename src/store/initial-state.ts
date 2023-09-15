@@ -61,26 +61,29 @@ const {
   rightSleeve: rightSleevePlacement,
 } = initialState.placementAreas;
 
-function mapRectToAllPlacements(initialState: State, rectKey: keyof Layers) {
-  const rectFront = initialState.layers[rectKey].front;
-  initialState.layers[rectKey].back = mapRectToPlacement(
-    rectFront,
+function mapFrontRectToOtherPlacements(
+  initialState: State,
+  layer: keyof Layers
+) {
+  const frontRect = initialState.layers[layer].front;
+  initialState.layers[layer].back = mapRectToPlacement(
+    frontRect,
     frontPlacement,
     backPlacement
   );
-  initialState.layers[rectKey].leftSleeve = mapRectToPlacement(
-    rectFront,
+  initialState.layers[layer].leftSleeve = mapRectToPlacement(
+    frontRect,
     frontPlacement,
     leftSleevePlacement
   );
-  initialState.layers[rectKey].rightSleeve = mapRectToPlacement(
-    rectFront,
+  initialState.layers[layer].rightSleeve = mapRectToPlacement(
+    frontRect,
     frontPlacement,
     rightSleevePlacement
   );
 }
 
-mapRectToAllPlacements(initialState, "rectangle1");
-mapRectToAllPlacements(initialState, "rectangle2");
+mapFrontRectToOtherPlacements(initialState, "rectangle1");
+mapFrontRectToOtherPlacements(initialState, "rectangle2");
 
 export { initialState };

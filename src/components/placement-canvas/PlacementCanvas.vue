@@ -22,14 +22,14 @@ let rectangle2: fabric.Rect | null = null;
 const store = useStore<State>();
 
 const watchPlacementsUpdateRect = (
-  watchPlacements: Placements,
+  placementsToWatch: Placements,
   rectToUpdate: fabric.Rect | null
 ) => {
   watch(
-    () => watchPlacements,
-    (newState: Placements) => {
+    () => placementsToWatch,
+    (newPlacements: Placements) => {
       if (rectToUpdate) {
-        rectToUpdate.set(newState[props.placement]);
+        rectToUpdate.set(newPlacements[props.placement]);
       }
       if (canvas) {
         canvas.renderAll();
